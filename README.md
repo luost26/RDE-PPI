@@ -12,7 +12,7 @@ conda env create -f env.yaml -n RDE
 conda activate RDE
 ```
 
-The default PyTorch version is 1.12.1 and cudatoolkit version is 11.3. It can be changed in [`env.yml`](./env.yml).
+The default PyTorch version is 1.12.1 and cudatoolkit version is 11.3. They can be changed in [`env.yml`](./env.yml).
 
 ### Datasets
 
