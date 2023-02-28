@@ -1,0 +1,37 @@
+model:
+  rde_checkpoint: ./trained_models/RDE.pt
+  encoder:
+    node_feat_dim: 128
+    pair_feat_dim: 64
+    num_layers: 3
+
+data:
+  csv_path: ./data/SKEMPI_v2/skempi_v2.csv
+  pdb_dir: ./data/SKEMPI_v2/PDBs
+  cache_dir: ./data/SKEMPI_v2_cache
+  transform:
+  - type: select_atom
+    resolution: backbone+CB
+  - type: selected_region_fixed_size_patch
+    select_attr: mut_flag
+    patch_size: 128
+
+train:
+  loss_weights:
+    regression: 1.0
+  max_iters: 30_000
+  val_freq: 1000
+  batch_size: 32
+  seed: 2022
+  max_grad_norm: 100.0
+  optimizer:
+    type: adam
+    lr: 3.e-4
+    weight_decay: 0.0
+    beta1: 0.9
+    beta2: 0.999
+  scheduler:
+    type: plateau
+    factor: 0.8
+    patience: 5
+    min_lr: 1.e-6

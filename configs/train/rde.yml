@@ -1,0 +1,36 @@
+model:
+  encoder:
+    node_feat_dim: 128
+    pair_feat_dim: 64
+    num_layers: 6
+  flow:
+    num_blocks: 8
+    num_hidden_dims: 128
+    num_spline_bins: 64
+
+data:
+  train: !include ../common/data_train_pdbredo_chain.yml
+  val: !include ../common/data_val_pdbredo_chain.yml
+
+train:
+  loss_weights:
+    mle_1chis: 0.25
+    mle_2chis: 0.25
+    mle_3chis: 0.25
+    mle_4chis: 0.25
+  max_iters: 200_000
+  val_freq: 1000
+  batch_size: 64
+  seed: 2022
+  max_grad_norm: 100.0
+  optimizer:
+    type: adam
+    lr: 1.e-4
+    weight_decay: 0.0
+    beta1: 0.9
+    beta2: 0.999
+  scheduler:
+    type: plateau
+    factor: 0.8
+    patience: 5
+    min_lr: 1.e-6

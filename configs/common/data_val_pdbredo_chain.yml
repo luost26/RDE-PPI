@@ -1,0 +1,22 @@
+type: pdbredo_chain
+split: val
+pdbredo_dir: ./data/PDB_REDO
+clusters_path: ./data/pdbredo_clusters.txt
+splits_path: ./data/pdbredo_splits.txt
+processed_dir: ./data/PDB_REDO_processed
+
+transform:
+## Only backbone atoms and CB are visible to rotamer predictor
+- type: select_atom
+  resolution: backbone+CB
+
+- type: focused_random_patch
+  focus_attr: focus_flag
+  seed_nbh_size: 32
+  patch_size: 128
+
+- type: corrupt_chi_angle
+  ratio_mask: 0.1
+  maskable_flag_attr: focus_flag
+
+  
