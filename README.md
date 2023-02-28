@@ -18,8 +18,8 @@ The default PyTorch version is 1.12.1 and cudatoolkit version is 11.3. They can 
 
 | Dataset   | Download Script                                    |
 | --------- | -------------------------------------------------- |
-| PDB-REDO  | [`data/get_pdbredo.sh`](./data/get_pdbredo.sh)     |
-| SKEMPI v2 | [`data/get_skempi_v2.sh`](./data/get_skempi_v2.sh) |
+| [PDB-REDO](https://pdb-redo.eu/)  | [`data/get_pdbredo.sh`](./data/get_pdbredo.sh)     |
+| [SKEMPI v2](https://life.bsc.es/pid/skempi2) | [`data/get_skempi_v2.sh`](./data/get_skempi_v2.sh) |
 
 ### Trained Weights
 
@@ -30,13 +30,13 @@ https://drive.google.com/drive/folders/1jS7VCLyLZoxDyYb092Y7QqxyOGUE8iUm?usp=sha
 ### Evaluate RDE-Network
 
 ```bash
-python test_rde_network_skempi.py ./trained_models/DDG_RDE_Network_30k.pt
+python test_rde_network_skempi.py --ckpt ./trained_models/DDG_RDE_Network_30k.pt
 ```
 
 ### Evaluate RDE-Linear
 
 ```
-python test_rde_linear_skempi.py
+python test_rde_linear_skempi.py --ckpt ./trained_models/RDE.pt
 ```
 
 ### Predict Mutational Effects for a SARS-CoV-2 Human Antibody and Other Protein Complexes
