@@ -39,7 +39,7 @@ python test_rde_network_skempi.py ./trained_models/DDG_RDE_Network_30k.pt
 python test_rde_linear_skempi.py
 ```
 
-### Prediction Mutational Effects for a SARS-CoV-2 Human Antibody and Other Protein Complexes
+### Predict Mutational Effects for a SARS-CoV-2 Human Antibody and Other Protein Complexes
 
 ```bash
 python pointmut_analysis.py ./configs/inference/7FAE_RBD_Fv_mutation.yml
