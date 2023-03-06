@@ -10,7 +10,7 @@
 ### Environment
 
 ```bash
-conda env create -f env.yaml -n RDE
+conda env create -f env.yml -n RDE
 conda activate RDE
 ```
 
