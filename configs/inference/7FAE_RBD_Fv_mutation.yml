@@ -1,5 +1,10 @@
 checkpoint: ./trained_models/DDG_RDE_Network_30k.pt
 pdb: ./data/7FAE_RBD_Fv.pdb
+receptor_chains:
+- A
+ligand_chains:
+- H
+- L
 mutations:
 # H-CDR1
 - GH26*
