@@ -38,7 +38,7 @@ class SkempiStructureRepo(object):
     def _preprocess(self):
         pdbcode_list = []
         for fname in os.listdir(self.root):
-            if fname.endswith('.pdb'):
+            if fname.endswith('.pdb') and fname[0] != ".":
                 pdbcode_list.append(fname[:4].lower())
 
         data_dict = {}
