@@ -43,8 +43,16 @@ python test_rde_linear_skempi.py --ckpt ./trained_models/RDE.pt
 
 ### Predict Mutational Effects for a SARS-CoV-2 Human Antibody and Other Protein Complexes
 
+Using the black-box **RDE-Net** model
+
 ```bash
 python pointmut_analysis_rdenet.py ./configs/inference/7FAE_RBD_Fv_mutation.yml
+```
+
+or using the entropy-based **RDE-Linear** model
+
+```bash
+python pointmut_analysis_entropy.py ./configs/inference/7FAE_RBD_Fv_mutation.yml
 ```
 
 💡 The script can also predict mutational effects for other protein complexes. Please refer to the example configuration file  [`7FAE_RBD_Fv_mutation.yml`](./configs/inference/7FAE_RBD_Fv_mutation.yml) to create your own mutation instruction.

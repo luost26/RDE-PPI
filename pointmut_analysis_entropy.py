@@ -12,7 +12,7 @@ from tqdm.auto import tqdm
 from rde.utils.protein.constants import num_chi_angles
 from rde.utils.protein.parsers import parse_biopython_structure
 from rde.utils.misc import load_config
-from rde.utils.train import CrossValidation, recursive_to
+from rde.utils.train import CrossValidation
 from rde.models.rde_ddg import DDG_RDE_Network
 from rde.utils.transforms import SelectAtom
 
