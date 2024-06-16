@@ -146,6 +146,8 @@ def grouped_ccc_loss(y_hat, y_true, group, min_points=10):
 
 
 def split_table(table, num_folds=3, fold_id=0, seed=2022):
+    if num_folds == 1:
+        return table, table, table
     assert fold_id < num_folds
     pdbcodes = table['pdbcode'].unique()
     random.Random(seed).shuffle(pdbcodes)
@@ -334,7 +336,7 @@ class Regression(nn.Module):
         self.regr_bias.requires_grad_(trainable)
 
     def add_ref(self, x, t):
-        k = torch.nn.functional.softplus(self.aa_coef(t)[..., 0])
+        k = torch.nn.functional.softplus(self.aa_coef(t)[..., 0]) + 0.5
         r = self.aa_ref(t)[..., 0]
         return k * x + r
 
