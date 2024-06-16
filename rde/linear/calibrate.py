@@ -20,14 +20,14 @@ def seed_all(seed):
     random.seed(seed)
 
 
-def convert_results_to_table(result):
+def convert_results_to_table(result, single=False):
     # Filter
     result_filtered = {}
     for index, item in result.items():
         mutations = item['mutations']
         chains_having_muts = set(map(lambda m: m['chain'], mutations))
-        # if len(mutations) > 1:
-        #     continue
+        if len(mutations) > 1 and single:
+            continue
         if len(chains_having_muts) > 1:
             # print('Ignore', index)
             continue
@@ -309,6 +309,8 @@ class Regression(nn.Module):
 
     def __init__(self, num_terms, labels=None):
         super().__init__()
+        self.aa_coef = nn.Embedding(21, embedding_dim=1, padding_idx=20)
+        self.aa_coef.weight.data.fill_(1.0)
         self.aa_ref = nn.Embedding(21, embedding_dim=1, padding_idx=20)
         self.aa_ref.weight.data.zero_()
 
@@ -324,6 +326,7 @@ class Regression(nn.Module):
         return self.regr_coef_
 
     def set_aa_ref_trainable(self, trainable):
+        self.aa_coef.weight.requires_grad_(trainable)
         self.aa_ref.weight.requires_grad_(trainable)
 
     def set_regr_trainable(self, trainable):
@@ -331,8 +334,9 @@ class Regression(nn.Module):
         self.regr_bias.requires_grad_(trainable)
 
     def add_ref(self, x, t):
+        k = torch.nn.functional.softplus(self.aa_coef(t)[..., 0])
         r = self.aa_ref(t)[..., 0]
-        return x + r
+        return k * x + r
 
     def print_weights(self):
         print('Weights')
@@ -481,6 +485,7 @@ def run_calibration(
     device='cuda', 
     alternate=100,  # Block descend
     output_dir='./RDE_linear_skempi',
+    single=False,
 ):
     seed_all(seed)
     os.makedirs(output_dir, exist_ok=True)
@@ -491,7 +496,7 @@ def run_calibration(
         for k, v in result.items() 
         if v['pdbcode'] not in block_list
     }
-    table = convert_results_to_table(result)
+    table = convert_results_to_table(result, single=single)
 
     seeds = [np.random.randint(0, 1000000) for _ in range(num_trials)]
     df_result = []
@@ -540,11 +545,19 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--iters', type=int, default=2000)
     parser.add_argument('-n', '--num_folds', type=int, default=3)
     parser.add_argument('-d', '--device', type=str, default='cuda')
-    parser.add_argument('-a', '--alternate', type=int, default=None)
-    parser.add_argument('--single', action='store_true', default=False)    
+    # parser.add_argument('-a', '--alternate', type=int, default=None)
+    parser.add_argument('--include_mult_mut', action='store_true', default=False)
     args = parser.parse_args()
 
     with open(args.result, 'rb') as f:
         result = pickle.load(f)
-    results = run_calibration(result)
+    results = run_calibration(
+        result,
+        seed=args.seed,
+        num_trials=args.num_trials,
+        iters=args.iters,
+        num_folds=args.num_folds,
+        device=args.device,
+        single=not args.include_mult_mut,
+    )
     results.to_csv(os.path.join(args.output_dir, 'results.csv'))
