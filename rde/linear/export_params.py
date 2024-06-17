@@ -7,7 +7,7 @@ import torch
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--result_dir', type=str, default='./RDE_linear_skempi')
-    parser.add_argument("--output", type=str, default="params.csv")
+    parser.add_argument("--output", type=str, default="data/rdelinear_params.csv")
     args = parser.parse_args()
 
     results = []

@@ -69,6 +69,25 @@ python train.py ./configs/train/rde.yml
 python train_rde_network_skempi.py ./configs/train/rde_ddg_skempi.yml
 ```
 
+### Train RDE-Linear (DDG)
+
+First, generate un-calibrated entropy for each mutation entry in the SKEMPI dataset:
+```bash
+python -m rde.linear.entropy
+```
+
+Then, train coefficients in the linear model for ddG prediction, using the whole SKEMPI dataset for training (`--num_folds 1`):
+```bash
+python -m rde.linear.calibrate --num_folds 1
+```
+
+Finally, export the the coefficients to `data/rdelinear_params.csv`:
+```bash
+python -m rde.linear.export_params
+```
+
+With the exported coefficients, you can predict ddG values using the `pointmut_analysis_entropy.py` script.
+
 ## Reference
 
 ```bibtex
