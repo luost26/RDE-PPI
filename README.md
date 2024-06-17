@@ -76,12 +76,12 @@ First, generate un-calibrated entropy for each mutation entry in the SKEMPI data
 python -m rde.linear.entropy
 ```
 
-Then, train coefficients in the linear model for ddG prediction, using the whole SKEMPI dataset for training (`--num_folds 1`):
+Then, train the coefficients in the linear model for ddG prediction, using the whole SKEMPI dataset for training (`--num_folds 1`):
 ```bash
 python -m rde.linear.calibrate --num_folds 1
 ```
 
-Finally, export the the coefficients to `data/rdelinear_params.csv`:
+Finally, export the coefficients to `data/rdelinear_params.csv`:
 ```bash
 python -m rde.linear.export_params
 ```
