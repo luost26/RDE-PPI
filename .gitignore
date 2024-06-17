@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+/*.csv
+/*.pkl
+/RDE_linear_skempi*
